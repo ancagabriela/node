@@ -44,21 +44,35 @@ app.listen(port, () =>{
     console.log('Server is up on port ' + port)
 })
 
-const jwt = require('jsonwebtoken')
+//learning about .toJSON
+// const pet = {
+//     name: 'Hal'
+// }
 
-const myFunction = async () => {
-    const token = jwt.sign({ _id: "abc123" }, 'helloworldthisisworking', {expiresIn: '7 days'})
-    console.log(token)
+// pet.toJSON = function () { 
+//     return {}
+// }
+// console.log(JSON.stringify(pet))
 
-    const data = jwt.verify(token, 'helloworldthisisworking')
-    console.log(data)
-}
 
-myFunction()
+
+
+//learning about jwt
+// const jwt = require('jsonwebtoken')
+
+// const myFunction = async () => {
+//     const token = jwt.sign({ _id: "abc123" }, 'helloworldthisisworking', {expiresIn: '7 days'})
+//     console.log(token)
+
+//     const data = jwt.verify(token, 'helloworldthisisworking')
+//     console.log(data)
+// }
+
+// myFunction()
  
 
 
-
+//learning about bcrypt
 // const bcrypt = require('bcryptjs')
 
 // const myFunction = async () => {
@@ -73,3 +87,5 @@ myFunction()
 // }
 
 // myFunction()
+
+

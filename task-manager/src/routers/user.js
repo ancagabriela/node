@@ -27,52 +27,81 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        res.send({ user, token })
+        res.send({ user: user.getPublicProfile(), token })
     }catch(e) {
         res.status(400).send()
     }
 })
 
-router.get('/users', auth, async (req, res) =>{
+router.post('/users/logout', auth, async (req, res) => {
     try {
-        const users = await User.find({})
-        res.send(users)
-    }catch (e) {
-        res.status(500).send
-    }
-    // User.find({}).then((users)=>{
-    //     res.send(users)
-    // }).catch((e) =>{
-    //     res.status(500).send
-    // })
-})
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
 
-router.get('/users/:id', async (req, res)=>{
-    const _id = req.params.id
-
-    try {
-        const user = await User.findById(_id)
-
-        if (!user) {
-            return res.status(404).send()
-        }
-
-        res.send(user)
+        res.send()
     }catch(e) {
         res.status(500).send()
     }
-
-    // User.findById(_id).then((user)=>{
-    //     if (!user) {
-    //         return res.status(404).send()
-    //     }
-
-    //     res.send(user)
-    // }).catch((e)=>{
-    //     res.status(500).send()
-    // })
-    //console.log(req.params)
 })
+
+router.post('/users/logoutAll', auth, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.send()
+    }catch(e) {
+        res.status(500).send()
+    }
+})
+
+//this gets all the user, but with the token we don't need anymore that
+// router.get('/users', auth, async (req, res) =>{
+//     try {
+//         const users = await User.find({})
+//         res.send(users)
+//     }catch (e) {
+//         res.status(500).send
+//     }
+//     // User.find({}).then((users)=>{
+//     //     res.send(users)
+//     // }).catch((e) =>{
+//     //     res.status(500).send
+//     // })
+// })
+
+router.get('/users/me', auth, async (req, res) =>{
+    res.send(req.user)
+})
+
+//no need because we dont want users to have access to other users
+// router.get('/users/:id', async (req, res)=>{
+//     const _id = req.params.id
+
+//     try {
+//         const user = await User.findById(_id)
+
+//         if (!user) {
+//             return res.status(404).send()
+//         }
+
+//         res.send(user)
+//     }catch(e) {
+//         res.status(500).send()
+//     }
+
+//     // User.findById(_id).then((user)=>{
+//     //     if (!user) {
+//     //         return res.status(404).send()
+//     //     }
+
+//     //     res.send(user)
+//     // }).catch((e)=>{
+//     //     res.status(500).send()
+//     // })
+//     //console.log(req.params)
+// })
 
 router.patch('/users/:id', async (req, res) => {
     const updates = Object.keys(req.body)
