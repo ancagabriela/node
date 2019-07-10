@@ -129,23 +129,41 @@ router.patch('/users/:id', async (req, res) => {
     }
 }) 
 
-router.delete('/users/:id', async (req, res) => {
-    try {
-        const user = await User.findByIdAndDelete(req.params.id)
-        
-        if (!user) {
-            return res.status(404).send()
-        }
 
-        res.send(user)
+router.delete('/users/:id', auth, async (req, res) => {
+    try {
+        // const user = await User.findByIdAndDelete(req.user._id)
+        
+        // if (!user) {
+        //     return res.status(404).send()
+        // }
+        await req.user.remove()
+        res.send(req.user)
     }catch(e){
         res.status(400).send()
     }
 })
 
 
-router.get('/test', (req, res) => {
-    res.send('From a new file')
-})
+
+//before anybody can delete others users
+// router.delete('/users/:id', async (req, res) => {
+//     try {
+//         const user = await User.findByIdAndDelete(req.params.id)
+        
+//         if (!user) {
+//             return res.status(404).send()
+//         }
+
+//         res.send(user)
+//     }catch(e){
+//         res.status(400).send()
+//     }
+// })
+
+//first test
+// router.get('/test', (req, res) => {
+//     res.send('From a new file')
+// })
 
 module.exports = router
