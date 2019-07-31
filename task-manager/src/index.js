@@ -44,6 +44,26 @@ app.listen(port, () =>{
     console.log('Server is up on port ' + port)
 })
 
+//To run the thing //npm run start or npm run dev
+
+//learn about populate
+// const Task = require('./models/task')
+// const User = require('./models/user')
+
+// const main = async () => {
+//     // const task = await Task.findById('5d3ffc31133c71124bd431eb')
+//     // await task.populate('owner').execPopulate()
+//     // console.log(task.owner)
+
+//     const user = await User.findById('5d3ff9204763d710c4179223')
+//     await user.populate('tasks').execPopulate()
+//     console.log(user.tasks)
+
+// }
+
+// main()
+
+
 //learning about .toJSON
 // const pet = {
 //     name: 'Hal'
