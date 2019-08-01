@@ -1,5 +1,5 @@
-require('../src/db/mongoose')
-const User = require('../src/models/user')
+require('../../task-manager/src/db/mongoose')
+const User = require('../../task-manager/src/models/user')
 
 const updateAgeAndCount = async (id, age) => {
     const user = await User.findByIdAndUpdate(id, { age })
