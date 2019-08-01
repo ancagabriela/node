@@ -8,6 +8,44 @@ const taskRouter = require('./routers/task')
 const app = express()
 const port = process.env.PORT || 3000
 
+app.use(express.json())
+app.use(userRouter)
+app.use(taskRouter)
+
+app.listen(port, () =>{
+    console.log('Server is up on port ' + port)
+})
+
+//Understanding multer for file uploads
+// const multer = require('multer')
+// const upload = multer({
+//     dest: 'images',
+//     limits: {
+//         fileSize: 1000000
+//     },
+//     fileFilter(req, file, cb) {
+//         if (!file.originalname.match(/\.(doc|docx)$/)) {  //this is a regex
+//             return cb(new Error('Please upload a Word document'))
+//         }
+//         cb(undefined, true)
+
+//         // cb(new Error('File must be a PDF'))
+//         // cb(undefined, false)
+//     }
+// })
+
+//here we tried out the error handling, so we dont receive a html response
+// const errorMiddleware = (req, res, next) => {
+//     throw new Error('From my middleware')
+// }
+
+//learning upload images
+// app.post('/upload', upload.single('upload'), (req, res) => {
+//     res.send()
+// }, (error, req, res, next) => {
+//     res.status(400).send({ error: error.message})
+// })
+
 //for GET requests the site is down
 // app.use((req, res, next ) => {
 //     if (req.method === "GET") {
@@ -26,9 +64,6 @@ const port = process.env.PORT || 3000
 //         // next()
 // })
 
-app.use(express.json())
-app.use(userRouter)
-app.use(taskRouter)
 
 //Without middleware: new request -> run route handler
 //With middleware:    new request -> do something -> run route handler
@@ -40,9 +75,7 @@ app.use(taskRouter)
 // app.use(router)
 
 
-app.listen(port, () =>{
-    console.log('Server is up on port ' + port)
-})
+
 
 //To run the thing //npm run start or npm run dev
 
